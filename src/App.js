@@ -5,6 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { Component } from 'react';
 import AddTaskForm from './AddTaskForm/AddTaskForm';
 import TaskItem from './TaskItem/TaskItem';
+import shortid from 'shortid';
 import './App.scss';
 
 class App extends Component {
@@ -12,27 +13,48 @@ class App extends Component {
   state = {
     taskList: [
       {
-        id: 1,
+        id: shortid.generate(),
         name: 'Task 1 name',
         status: 'undone'
       },
       {
-        id: 2,
+        id: shortid.generate(),
         name: 'Task 2 name',
         status: 'undone'
       },
       {
-        id: 3,
+        id: shortid.generate(),
         name: 'Task 3 name',
         status: 'done'
       },
       {
-        id: 4,
+        id: shortid.generate(),
         name: 'Task 4 name',
         status: 'done'
       }
-    ]
+    ],
+    inputValue: '',
   };
+
+  updateInputHandler = (event) => {
+    this.setState({
+      inputValue: event.target.value
+    });
+  }
+
+  addNewTaskHandler = () => {
+    let newTaskList = [...this.state.taskList];
+    newTaskList.push({
+      id: shortid.generate(),
+      name: this.state.inputValue,
+      status: 'undone'
+    });
+
+    this.setState({
+      taskList: newTaskList,
+      inputValue: ''
+    });
+  }
 
   render() {
 
@@ -44,12 +66,15 @@ class App extends Component {
       <div className="App">
         <div className="container">
 
-          <AddTaskForm />
+          <AddTaskForm 
+            newTask={this.addNewTaskHandler}
+            updateInput={(event) => this.updateInputHandler(event)}
+            inputVal={this.state.inputValue}/>
 
           <div className="row">
             <div className="col-12 col-md-6">
 
-              <p>Todo tasks list:</p>
+              <p>Todo task list:</p>
               <ul>
                 {undoneTask.map((task) => {
                   return <TaskItem key={task.id} name={task.name}/>
@@ -59,7 +84,7 @@ class App extends Component {
             </div>
             <div className="col-12 col-md-6">
 
-              <p>Done tasks list:</p>
+              <p>Done task list:</p>
 
             </div>
           </div>
