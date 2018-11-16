@@ -8,6 +8,10 @@ import TaskItem from './TaskItem/TaskItem';
 import shortid from 'shortid';
 import './App.scss';
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+library.add(faStroopwafel)
+
 class App extends Component {
 
   state = {
@@ -56,10 +60,33 @@ class App extends Component {
     });
   }
 
+  doneTaskHandler = (taskId) => {
+
+    // Copying taskList from state in newTaskList array
+    const newTaskList = [...this.state.taskList];
+
+    // Find task index from newTaskList array
+    const taskIndex = newTaskList.findIndex((task) => {
+      return task.id === taskId;
+    });
+
+    // Changing task status to done
+    newTaskList[taskIndex].status = 'done'
+
+    // Update state
+    this.setState({
+      taskList: newTaskList
+    });
+  }
+
   render() {
 
     let undoneTask = this.state.taskList.filter((task) => {
       return task.status === 'undone';
+    });
+
+    let doneTask = this.state.taskList.filter((task) => {
+      return task.status === 'done';
     });
 
     return (
@@ -75,9 +102,13 @@ class App extends Component {
             <div className="col-12 col-md-6">
 
               <p>Todo task list:</p>
-              <ul>
+              <ul className="TaskList">
                 {undoneTask.map((task) => {
-                  return <TaskItem key={task.id} name={task.name}/>
+                  return <TaskItem 
+                            key={task.id} 
+                            name={task.name} 
+                            status={task.status}
+                            done={() => this.doneTaskHandler(task.id)}/>
                 })}
               </ul>
               
@@ -85,6 +116,11 @@ class App extends Component {
             <div className="col-12 col-md-6">
 
               <p>Done task list:</p>
+              <ul className="TaskList">
+                {doneTask.map((task) => {
+                  return <TaskItem key={task.id} name={task.name} status={task.status}/>
+                })}
+              </ul>
 
             </div>
           </div>
