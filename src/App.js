@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { Component } from 'react';
 import AddTaskForm from './AddTaskForm/AddTaskForm';
-import TaskItem from './TaskItem/TaskItem';
+import TaskListItem from './TaskListItem/TaskListItem';
 import shortid from 'shortid';
 import './App.scss';
 
@@ -104,7 +104,7 @@ class App extends Component {
               <p>Todo task list:</p>
               <ul className="TaskList">
                 {undoneTask.map((task) => {
-                  return <TaskItem 
+                  return <TaskListItem 
                             key={task.id} 
                             name={task.name} 
                             status={task.status}
@@ -118,7 +118,7 @@ class App extends Component {
               <p>Done task list:</p>
               <ul className="TaskList">
                 {doneTask.map((task) => {
-                  return <TaskItem key={task.id} name={task.name} status={task.status}/>
+                  return <TaskListItem key={task.id} name={task.name} status={task.status}/>
                 })}
               </ul>
 
