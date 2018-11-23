@@ -79,6 +79,20 @@ class App extends Component {
     });
   }
 
+  removeTaskHandler = (taskId) => {
+    const newTaskList = [...this.state.taskList];
+
+    const taskIndex = newTaskList.findIndex((task) => {
+      return task.id === taskId;
+    });
+
+    newTaskList.splice(taskIndex, 1);
+    
+    this.setState({
+      taskList: newTaskList
+    });
+  }
+
   render() {
 
     let undoneTask = this.state.taskList.filter((task) => {
@@ -108,7 +122,8 @@ class App extends Component {
                             key={task.id} 
                             name={task.name} 
                             status={task.status}
-                            done={() => this.doneTaskHandler(task.id)}/>
+                            done={() => this.doneTaskHandler(task.id)}
+                            remove={() => this.removeTaskHandler(task.id)}/>
                 })}
               </ul>
               
@@ -118,7 +133,11 @@ class App extends Component {
               <p>Done task list:</p>
               <ul className="TaskList">
                 {doneTask.map((task) => {
-                  return <TaskListItem key={task.id} name={task.name} status={task.status}/>
+                  return <TaskListItem 
+                            key={task.id} 
+                            name={task.name} 
+                            status={task.status}
+                            remove={() => this.removeTaskHandler(task.id)}/>
                 })}
               </ul>
 

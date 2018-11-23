@@ -12,7 +12,7 @@ const TaskListItem = (props) => {
                             </span>;
     }
 
-    let taskListIconDelete = <span className="TaskList__icon TaskList__icon--red">
+    let taskListIconDelete = <span className="TaskList__icon TaskList__icon--red" onClick={props.remove}>
                                 <FontAwesomeIcon icon={Icons.faTimesCircle} />
                             </span>; 
 
